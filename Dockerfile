@@ -34,7 +34,9 @@ WORKDIR /app
 COPY . .
 
 # Build the Windows binary
-RUN go build -o 3270Connect.exe go3270Connect.go
+RUN cmd /C "go build -o 3270Connect.exe go3270Connect.go"
+
+#RUN go build -o 3270Connect.exe go3270Connect.go
 
 #############################
 # Final stage for Linux
