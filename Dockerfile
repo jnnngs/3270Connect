@@ -33,10 +33,19 @@ WORKDIR /app
 # Copy the Go source code
 COPY . .
 
-# Build the Windows binary
+# Build the Windows binary using CMD instead of PowerShell
 RUN cmd /C "go build -o 3270Connect.exe go3270Connect.go"
 
-#RUN go build -o 3270Connect.exe go3270Connect.go
+#############################
+# Final stage for Windows
+#############################
+FROM mcr.microsoft.com/windows/servercore:ltsc2019 AS final-windows
+
+# Copy the Windows binary from the builder
+COPY --from=builder-windows /app/3270Connect.exe C:\3270Connect.exe
+
+# Define the entrypoint for the Windows container
+ENTRYPOINT ["C:\\3270Connect.exe"]
 
 #############################
 # Final stage for Linux
